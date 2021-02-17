@@ -1,4 +1,4 @@
-module glog
+module gitlab.abr-region.ru/m.sokolovsky/glog
 
 go 1.14
 
