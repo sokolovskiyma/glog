@@ -118,7 +118,7 @@ func Telegram(format string, v ...interface{}) {
 	}
 	// log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	msg := tgbotapi.NewMessage(239313732, fmt.Sprintf("["+format+"]\n%s", v...))
+	msg := tgbotapi.NewMessage(239313732, fmt.Sprintf("["+format+"]\n", v...))
 	bot.Send(msg)
 }
 
