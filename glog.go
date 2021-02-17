@@ -193,8 +193,6 @@ func GinRecovery() gin.HandlerFunc {
 				}
 				if logger != nil {
 					stack := debug.Stack()
-					stack = bytes.Replace(stack, []byte("\n"), []byte("\\n"), -1)
-					stack = bytes.Replace(stack, []byte("\t"), []byte("\\t"), -1)
 
 					httpRequest, _ := httputil.DumpRequest(c.Request, false)
 					headers := strings.Split(string(httpRequest), "\r\n")
