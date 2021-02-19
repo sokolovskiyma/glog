@@ -23,8 +23,10 @@ const (
 	ProductionMode = iota
 )
 
-type Config struct {
+type glogConfig struct {
+	appname string
 	mode    int
+	bot     *tgbotapi.BotAPI
 	info    *log.Logger
 	request *log.Logger
 	warn    *log.Logger
@@ -32,10 +34,17 @@ type Config struct {
 	trace   *log.Logger
 }
 
-var config Config
+var config glogConfig
 
 func init() {
 	SetMode(DebugMode)
+
+	var err error
+	config.bot, err = tgbotapi.NewBotAPI("1595064321:AAGJJt3Sve-5aohdAvmN6QKui7E6wEqTOMw")
+	if err != nil {
+		config.bot = nil
+		Err(err.Error())
+	}
 }
 
 // SetMode - Устанавливает режим логирования
@@ -112,14 +121,12 @@ func Trace(format string, v ...interface{}) {
 
 // Telegram - отправляет сообщение по формату + "\n"
 func Telegram(format string, v ...interface{}) {
-	bot, err := tgbotapi.NewBotAPI("1595064321:AAGJJt3Sve-5aohdAvmN6QKui7E6wEqTOMw")
-	if err != nil {
-		Err(err.Error())
+	hostname, _ := os.Hostname()
+	if config.bot != nil {
+		msg := tgbotapi.NewMessage(-173812268, fmt.Sprintf("*"+hostname+"@"+os.Args[0]+"*\n\n["+format+"]\n", v...))
+		msg.ParseMode = tgbotapi.ModeMarkdown
+		config.bot.Send(msg)
 	}
-	// log.Printf("Authorized on account %s", bot.Self.UserName)
-
-	msg := tgbotapi.NewMessage(239313732, fmt.Sprintf("["+format+"]\n", v...))
-	bot.Send(msg)
 }
 
 // GinLoger - custom loger for gin

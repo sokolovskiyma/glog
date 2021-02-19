@@ -11,7 +11,7 @@ func TestInfo(t *testing.T) {
 	config.info.SetFlags(0)
 
 	Info("Test")
-	Trace("")
+	Telegram("test")
 	if out.String() != "INFO: [Test]\n" {
 		t.Error("Info fail")
 	}
