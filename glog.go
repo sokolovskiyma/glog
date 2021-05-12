@@ -167,7 +167,7 @@ func GinLoger() gin.HandlerFunc {
 		Path := path
 
 		config.request.Printf(patern,
-			TimeStamp.Format("2006/01/02 - 15:04:05"),
+			TimeStamp.Format("2006/01/02 15:04:05"),
 			StatusCode,
 			Latency,
 			ClientIP,
