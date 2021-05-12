@@ -54,11 +54,11 @@ func SetMode(mod int) {
 	case DebugMode:
 		config.mode = DebugMode
 
-		config.info = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
-		config.request = log.New(os.Stdout, "REQUEST: ", 0)
-		config.warn = log.New(os.Stdout, "WARN: ", log.Ldate|log.Ltime)
-		config.err = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime)
-		config.trace = log.New(os.Stderr, "TRACE: ", log.Ldate|log.Ltime)
+		config.info = log.New(os.Stdout, "INFO:    ", log.Ldate|log.Ltime)
+		config.request = log.New(os.Stdout, "REQUEST:    ", 0)
+		config.warn = log.New(os.Stdout, "WARN:    ", log.Ldate|log.Ltime)
+		config.err = log.New(os.Stderr, "ERROR:    ", log.Ldate|log.Ltime)
+		config.trace = log.New(os.Stderr, "TRACE:    ", log.Ldate|log.Ltime)
 
 	case ProductionMode:
 		config.mode = ProductionMode
