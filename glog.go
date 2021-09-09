@@ -2,7 +2,6 @@ package glog
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -13,7 +12,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	// tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 const (
@@ -24,14 +23,14 @@ const (
 )
 
 type glogConfig struct {
-	appname string
 	mode    int
-	bot     *tgbotapi.BotAPI
 	info    *log.Logger
 	request *log.Logger
 	warn    *log.Logger
 	err     *log.Logger
 	trace   *log.Logger
+	// appname string
+	// bot     *tgbotapi.BotAPI
 }
 
 var config glogConfig
@@ -39,12 +38,12 @@ var config glogConfig
 func init() {
 	SetMode(DebugMode)
 
-	var err error
-	config.bot, err = tgbotapi.NewBotAPI("1595064321:AAGJJt3Sve-5aohdAvmN6QKui7E6wEqTOMw")
-	if err != nil {
-		config.bot = nil
-		Err(err.Error())
-	}
+	// var err error
+	// config.bot, err = tgbotapi.NewBotAPI("-")
+	// if err != nil {
+	// 	config.bot = nil
+	// 	Err(err.Error())
+	// }
 }
 
 // SetMode - Устанавливает режим логирования
@@ -119,15 +118,15 @@ func Trace(format string, v ...interface{}) {
 	}
 }
 
-// Telegram - отправляет сообщение по формату + "\n"
-func Telegram(format string, v ...interface{}) {
-	hostname, _ := os.Hostname()
-	if config.bot != nil {
-		msg := tgbotapi.NewMessage(-173812268, fmt.Sprintf("*"+hostname+"@"+os.Args[0]+"*\n\n["+format+"]\n", v...))
-		msg.ParseMode = tgbotapi.ModeMarkdown
-		config.bot.Send(msg)
-	}
-}
+// // Telegram - отправляет сообщение по формату + "\n"
+// func Telegram(format string, v ...interface{}) {
+// 	hostname, _ := os.Hostname()
+// 	if config.bot != nil {
+// 		msg := tgbotapi.NewMessage(-173812268, fmt.Sprintf("*"+hostname+"@"+os.Args[0]+"*\n\n["+format+"]\n", v...))
+// 		msg.ParseMode = tgbotapi.ModeMarkdown
+// 		config.bot.Send(msg)
+// 	}
+// }
 
 // GinLoger - custom loger for gin
 func GinLoger() gin.HandlerFunc {
@@ -219,8 +218,8 @@ func GinRecovery() gin.HandlerFunc {
 							time.Now().Format(time.RFC3339), err, stack, reset)
 					}
 
-					// Также сигналит в телегу
-					Telegram("[Recovery] %s panic recovered:\n%s\n%s%s", time.Now().Format(time.RFC3339), err, stack, reset)
+					// // Также сигналит в телегу
+					// Telegram("[Recovery] %s panic recovered:\n%s\n%s%s", time.Now().Format(time.RFC3339), err, stack, reset)
 				}
 
 				// If the connection is dead, we can't write a status to it.
